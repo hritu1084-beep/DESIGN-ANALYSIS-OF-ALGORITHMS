@@ -1,0 +1,44 @@
+
+#include <stdio.h>
+
+int findIndex(int a[], int low, int high) {
+    if (low > high)
+        return -1;
+
+    int mid = (low + high) / 2;
+
+    if (a[mid] == mid)
+        return mid;
+
+    else if (a[mid] < mid)
+        return findIndex(a, mid + 1, high);
+
+    else
+        return findIndex(a, low, mid - 1);
+}
+
+int main() {
+    int a[101], n, i, result;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n < 1 || n > 100) {
+        printf("Invalid array size");
+        return 1;
+    }
+
+    printf("Enter sorted distinct elements: ");
+    for (i = 1; i <= n; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    result = findIndex(a, 1, n);
+
+    if (result == -1)
+        printf("No index found");
+    else
+        printf("Index found at %d", result);
+
+    return 0;
+}
