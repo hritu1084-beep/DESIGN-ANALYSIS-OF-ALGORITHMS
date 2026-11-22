@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <limits.h>
+
+int binarySearch(int a[], int low, int high, int x) {
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+
+        if (a[mid] == x)
+            return mid;
+        else if (a[mid] < x)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1;
+}
+
+int exponentialSearch(int a[], int x) {
+    if (a[0] == INT_MAX || a[0] > x)
+        return -1;
+
+    if (a[0] == x)
+        return 0;
+
+    int low = 0, high = 1;
+
+    while (a[high] < x) {
+        low = high;
+        high = high * 2;
+    }
+
+    return binarySearch(a, low + 1, high, x);
+}
+
+int main() {
+    int a[100], n, x, i, result;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < 100; i++)
+        a[i] = INT_MAX;
+
+    printf("Enter sorted elements: ");
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    printf("Enter element to search: ");
+    scanf("%d", &x);
+
+    result = exponentialSearch(a, x);
+
+    if (result == -1)
+        printf("Element not found");
+    else
+        printf("Element found at index %d", result);
+
+    return 0;
+}
