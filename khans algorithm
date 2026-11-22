@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+int a[20][20], indegree[20], queue[20];
+int n, front = 0, rear = -1;
+
+void kahn() {
+    int count = 0;
+
+    // Calculate indegree
+    for (int i = 0; i < n; i++) {
+        indegree[i] = 0;
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (a[i][j] == 1) {
+                indegree[j]++;
+            }
+        }
+    }
+
+    // Add vertices with indegree 0
+    for (int i = 0; i < n; i++) {
+        if (indegree[i] == 0) {
+            queue[++rear] = i;
+        }
+    }
+
+    printf("Topological Order: ");
+
+    while (front <= rear) {
+        int u = queue[front++];
+        printf("%d ", u);
+        count++;
+
+        for (int v = 0; v < n; v++) {
+            if (a[u][v] == 1) {
+                indegree[v]--;
+
+                if (indegree[v] == 0) {
+                    queue[++rear] = v;
+                }
+            }
+        }
+    }
+
+    if (count != n) {
+        printf("\nTopological ordering is not possible");
+    }
+}
+
+int main() {
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    printf("Enter adjacency matrix:\n");
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &a[i][j]);
+        }
+    }
+
+    kahn();
+
+    return 0;
+}
